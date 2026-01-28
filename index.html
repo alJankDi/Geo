@@ -1,0 +1,2626 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umfang & Flächeninhalt - Rechteck, Dreieck, Parallelogramm & Trapez</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #14b8a6;
+            --orange: #f97316;
+            --purple: #8b5cf6;
+            --dark: #1e1b4b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 6rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: slideUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: slideUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-shapes {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            animation: slideUp 1s ease-out 0.4s both;
+        }
+
+        .hero-shape {
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+            min-width: 100px;
+        }
+
+        .hero-shape:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .hero-shape svg {
+            width: 60px;
+            height: 60px;
+        }
+
+        .hero-shape p {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .section-title .underline {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        /* Theory Cards */
+        .theory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .theory-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theory-card.rechteck::before {
+            background: linear-gradient(90deg, var(--primary), #818cf8);
+        }
+
+        .theory-card.dreieck::before {
+            background: linear-gradient(90deg, var(--secondary), #f472b6);
+        }
+
+        .theory-card.parallelogramm::before {
+            background: linear-gradient(90deg, var(--orange), #fb923c);
+        }
+
+        .theory-card.trapez::before {
+            background: linear-gradient(90deg, var(--purple), #a78bfa);
+        }
+
+        .theory-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .theory-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .theory-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theory-card .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .icon.rechteck { background: linear-gradient(135deg, var(--primary), #818cf8); }
+        .icon.dreieck { background: linear-gradient(135deg, var(--secondary), #f472b6); }
+        .icon.parallelogramm { background: linear-gradient(135deg, var(--orange), #fb923c); }
+        .icon.trapez { background: linear-gradient(135deg, var(--purple), #a78bfa); }
+
+        .formula-box {
+            background: linear-gradient(135deg, #f0f4ff, #fdf2f8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .formula {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            font-family: 'Courier New', monospace;
+        }
+
+        .formula span {
+            color: var(--primary);
+        }
+
+        .formula .orange { color: var(--orange); }
+        .formula .purple { color: var(--purple); }
+        .formula .pink { color: var(--secondary); }
+
+        .theory-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .theory-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .theory-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Shape Illustration in Cards */
+        .shape-illustration {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .shape-illustration svg {
+            max-width: 150px;
+            max-height: 100px;
+        }
+
+        /* Interactive Calculator */
+        .calculator-section {
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            padding: 5rem 2rem;
+            margin: 0;
+            max-width: 100%;
+        }
+
+        .calculator-section .section-title h2,
+        .calculator-section .section-title p {
+            color: white;
+        }
+
+        .calculator-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .calc-card {
+            background: white;
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .calc-card h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            color: var(--dark);
+        }
+
+        .shape-display {
+            width: 100%;
+            height: 180px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+            border-radius: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .calc-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .calc-btn.orange {
+            background: linear-gradient(135deg, var(--orange), #ea580c);
+        }
+
+        .calc-btn.purple {
+            background: linear-gradient(135deg, var(--purple), #7c3aed);
+        }
+
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--success), #16a34a);
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .result-box h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            opacity: 0.9;
+        }
+
+        .result-box .value {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Visualization Section */
+        .visual-section {
+            background: #f8fafc;
+        }
+
+        .visual-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .visual-canvas {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .visual-controls {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .slider-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .slider-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .slider-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 3px solid var(--primary);
+        }
+
+        .slider-group.orange input[type="range"] {
+            background: linear-gradient(90deg, var(--orange), #fb923c);
+        }
+        .slider-group.orange input[type="range"]::-webkit-slider-thumb {
+            border-color: var(--orange);
+        }
+
+        .slider-group.purple input[type="range"] {
+            background: linear-gradient(90deg, var(--purple), #a78bfa);
+        }
+        .slider-group.purple input[type="range"]::-webkit-slider-thumb {
+            border-color: var(--purple);
+        }
+
+        .visual-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-box {
+            padding: 1rem;
+            background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .info-box.orange {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+        }
+
+        .info-box.purple {
+            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+        }
+
+        .info-box .label {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .info-box .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .info-box.orange .value { color: var(--orange); }
+        .info-box.purple .value { color: var(--purple); }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            background: #e2e8f0;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .tab-btn.active.orange {
+            background: linear-gradient(135deg, var(--orange), #ea580c);
+        }
+
+        .tab-btn.active.purple {
+            background: linear-gradient(135deg, var(--purple), #7c3aed);
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: linear-gradient(135deg, #ec4899, #f97316);
+            padding: 5rem 2rem;
+            max-width: 100%;
+        }
+
+        .quiz-section .section-title h2,
+        .quiz-section .section-title p {
+            color: white;
+        }
+
+        .quiz-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-right: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: var(--gray);
+            white-space: nowrap;
+        }
+
+        .quiz-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            min-height: 60px;
+            line-height: 1.5;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: #f0f4ff;
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success);
+            background: #dcfce7;
+        }
+
+        .quiz-option.wrong {
+            border-color: var(--error);
+            background: #fee2e2;
+        }
+
+        .quiz-feedback {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+            animation: popIn 0.3s ease-out;
+        }
+
+        .quiz-feedback.correct {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .quiz-feedback.wrong {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .quiz-btn {
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .score-display .score {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-display .message {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: var(--dark);
+        }
+
+        /* Game Section */
+        .game-section {
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+            padding: 5rem 2rem;
+            max-width: 100%;
+        }
+
+        .game-section .section-title h2,
+        .game-section .section-title p {
+            color: white;
+        }
+
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .game-shape {
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .game-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .game-input-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .game-input {
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            width: 150px;
+            text-align: center;
+        }
+
+        .game-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e2e8f0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat .label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .stat .value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .game-feedback {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            min-height: 30px;
+        }
+
+        .game-feedback.correct {
+            color: var(--success);
+        }
+
+        .game-feedback.wrong {
+            color: var(--error);
+        }
+
+        /* Formula Reference */
+        .formula-section {
+            background: #f0f4ff;
+        }
+
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .formula-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .formula-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .formula-card .shape-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .formula-card .shape-icon.blue {
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+        }
+
+        .formula-card .shape-icon.pink {
+            background: linear-gradient(135deg, var(--secondary), #f472b6);
+        }
+
+        .formula-card .shape-icon.orange {
+            background: linear-gradient(135deg, var(--orange), #fb923c);
+        }
+
+        .formula-card .shape-icon.purple {
+            background: linear-gradient(135deg, var(--purple), #a78bfa);
+        }
+
+        .formula-card .shape-icon svg {
+            width: 35px;
+            height: 35px;
+            fill: white;
+        }
+
+        .formula-card h4 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .formula-card .formula-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            background: #f0f4ff;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .formula-card .formula-text.orange { color: var(--orange); background: #fff7ed; }
+        .formula-card .formula-text.purple { color: var(--purple); background: #faf5ff; }
+        .formula-card .formula-text.pink { color: var(--secondary); background: #fdf2f8; }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-icons span {
+            font-size: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-shapes {
+                gap: 1rem;
+            }
+
+            .hero-shape {
+                padding: 1rem;
+                min-width: 80px;
+            }
+
+            .hero-shape svg {
+                width: 40px;
+                height: 40px;
+            }
+
+            .hero-shape p {
+                font-size: 0.75rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .theory-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-container {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-container {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-card {
+                padding: 1.5rem;
+            }
+
+            .formula {
+                font-size: 1.1rem;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-nav {
+                gap: 0.3rem;
+            }
+
+            .tab-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Comparison Section */
+        .comparison-section {
+            background: linear-gradient(135deg, #faf5ff, #fdf2f8);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        .shape-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .shape-badge.rechteck { background: #e0e7ff; color: var(--primary); }
+        .shape-badge.dreieck { background: #fce7f3; color: var(--secondary); }
+        .shape-badge.parallelogramm { background: #ffedd5; color: var(--orange); }
+        .shape-badge.trapez { background: #f3e8ff; color: var(--purple); }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">📐 MathGeometrie</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Start</a></li>
+                <li><a href="#theorie">Theorie</a></li>
+                <li><a href="#rechner">Rechner</a></li>
+                <li><a href="#visualisierung">Visualisierung</a></li>
+                <li><a href="#vergleich">Vergleich</a></li>
+                <li><a href="#quiz">Quiz</a></li>
+                <li><a href="#spiel">Spiel</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Umfang & Flächeninhalt</h1>
+            <p>Lerne alles über Rechteck, Dreieck, Parallelogramm und Trapez – interaktiv und anschaulich!</p>
+            <div class="hero-shapes">
+                <div class="hero-shape">
+                    <svg viewBox="0 0 100 100">
+                        <rect x="15" y="25" width="70" height="50" fill="none" stroke="white" stroke-width="4"/>
+                    </svg>
+                    <p>Rechteck</p>
+                </div>
+                <div class="hero-shape">
+                    <svg viewBox="0 0 100 100">
+                        <polygon points="50,15 85,85 15,85" fill="none" stroke="white" stroke-width="4"/>
+                    </svg>
+                    <p>Dreieck</p>
+                </div>
+                <div class="hero-shape">
+                    <svg viewBox="0 0 100 100">
+                        <polygon points="25,75 40,25 90,25 75,75" fill="none" stroke="white" stroke-width="4"/>
+                    </svg>
+                    <p>Parallelogramm</p>
+                </div>
+                <div class="hero-shape">
+                    <svg viewBox="0 0 100 100">
+                        <polygon points="20,75 35,25 65,25 80,75" fill="none" stroke="white" stroke-width="4"/>
+                    </svg>
+                    <p>Trapez</p>
+                </div>
+            </div>
+            <br><br>
+            <a href="#theorie" class="btn">Los geht's! 🚀</a>
+        </div>
+    </section>
+
+    <!-- Theory Section -->
+    <section id="theorie" class="fade-in">
+        <div class="section-title">
+            <h2>📚 Theorie & Formeln</h2>
+            <div class="underline"></div>
+            <p>Die wichtigsten Grundlagen für alle vier geometrischen Formen</p>
+        </div>
+        
+        <div class="theory-grid">
+            <!-- Rechteck Umfang -->
+            <div class="theory-card rechteck fade-in">
+                <div class="shape-illustration">
+                    <svg viewBox="0 0 150 100">
+                        <rect x="10" y="15" width="130" height="70" fill="rgba(99,102,241,0.2)" stroke="#6366f1" stroke-width="3"/>
+                        <text x="75" y="95" text-anchor="middle" fill="#6366f1" font-size="12" font-weight="bold">a</text>
+                        <text x="145" y="55" text-anchor="start" fill="#6366f1" font-size="12" font-weight="bold">b</text>
+                    </svg>
+                </div>
+                <h3><div class="icon rechteck">▭</div> Rechteck - Umfang</h3>
+                <p>Der <strong>Umfang</strong> ist die Summe aller vier Seiten:</p>
+                <div class="formula-box">
+                    <div class="formula">U = 2 × (<span>a</span> + <span>b</span>)</div>
+                </div>
+                <ul>
+                    <li><strong>a</strong> = Länge</li>
+                    <li><strong>b</strong> = Breite</li>
+                    <li>Gegenüberliegende Seiten sind gleich lang</li>
+                </ul>
+            </div>
+
+            <!-- Rechteck Fläche -->
+            <div class="theory-card rechteck fade-in">
+                <div class="shape-illustration">
+                    <svg viewBox="0 0 150 100">
+                        <rect x="10" y="15" width="130" height="70" fill="rgba(99,102,241,0.3)" stroke="#6366f1" stroke-width="3"/>
+                        <text x="75" y="55" text-anchor="middle" fill="#6366f1" font-size="14" font-weight="bold">A</text>
+                    </svg>
+                </div>
+                <h3><div class="icon rechteck">▭</div> Rechteck - Fläche</h3>
+                <p>Der <strong>Flächeninhalt</strong> wird berechnet durch:</p>
+                <div class="formula-box">
+                    <div class="formula">A = <span>a</span> × <span>b</span></div>
+                </div>
+                <ul>
+                    <li>Länge mal Breite</li>
+                    <li>Einheit: cm², m², etc.</li>
+                    <li>Gibt an, wie viel Platz die Form einnimmt</li>
+                </ul>
+            </div>
+
+            <!-- Dreieck Umfang -->
+            <div class="theory-card dreieck fade-in">
+                <div class="shape-illustration">
+                    <svg viewBox="0 0 150 100">
+                        <polygon points="75,10 140,90 10,90" fill="rgba(236,72,153,0.2)" stroke="#ec4899" stroke-width="3"/>
+                        <text x="40" y="55" text-anchor="middle" fill="#ec4899" font-size="11" font-weight="bold">a</text>
+                        <text x="110" y="55" text-anchor="middle" fill="#ec4899" font-size="11" font-weight="bold">b</text>
+                        <text x="75" y="98" text-anchor="middle" fill="#ec4899" font-size="11" font-weight="bold">c</text>
+                    </svg>
+                </div>
+                <h3><div class="icon dreieck">△</div> Dreieck - Umfang</h3>
+                <p>Der <strong>Umfang</strong> ist die Summe aller drei Seiten:</p>
+                <div class="formula-box">
+                    <div class="formula">U = <span class="pink">a</span> + <span class="pink">b</span> + <span class="pink">c</span></div>
+                </div>
+                <ul>
+                    <li><strong>a, b, c</strong> = Die drei Seitenlängen</li>
+                    <li>Gilt für alle Dreiecksarten</li>
+                    <li>Gleichseitig: alle Seiten gleich lang</li>
+                </ul>
+            </div>
+
+            <!-- Dreieck Fläche -->
+            <div class="theory-card dreieck fade-in">
+                <div class="shape-illustration">
+                    <svg viewBox="0 0 150 100">
+                        <polygon points="75,10 140,90 10,90" fill="rgba(236,72,153,0.3)" stroke="#ec4899" stroke-width="3"/>
+                        <line x1="75" y1="10" x2="75" y2="90" stroke="#ec4899" stroke-width="2" stroke-dasharray="4"/>
+                        <text x="75" y="98" text-anchor="middle" fill="#ec4899" font-size="11" font-weight="bold">g</text>
+                        <text x="85" y="55" text-anchor="start" fill="#ec4899" font-size="11" font-weight="bold">h</text>
+                    </svg>
+                </div>
+                <h3><div class="icon dreieck">△</div> Dreieck - Fläche</h3>
+                <p>Der <strong>Flächeninhalt</strong> mit Grundseite und Höhe:</p>
+                <div class="formula-box">
+                    <div class="formula">A = (<span class="pink">g</span> × <span class="pink">h</span>) ÷ 2</div>
+                </div>
+                <ul>
+                    <li><strong>g</strong> = Grundseite (Basis)</li>
+                    <li><strong>h</strong> = Höhe (senkrecht zur Basis)</li>
+                    <li>Ein Dreieck ist ein halbes Rechteck!</li>
+                </ul>
+            </div>
+
+            <!-- Parallelogramm Umfang -->
+            <div class="theory-card parallelogramm fade-in">
+                <div class="shape-illustration">
+                    <svg viewBox="0 0 150 100">
+                        <polygon points="30,85 55,15 135,15 110,85" fill="rgba(249,115,22,0.2)" stroke="#f97316" stroke-width="3"/>
+                        <text x="70" y="98" text-anchor="middle" fill="#f97316" font-size="11" font-weight="bold">a</text>
+                        <text x="20" y="55" text-anchor="middle" fill="#f97316" font-size="11" font-weight="bold">b</text>
+                    </svg>
+                </div>
+                <h3><div class="icon parallelogramm">▱</div> Parallelogramm - Umfang</h3>
+                <p>Der <strong>Umfang</strong> – gegenüberliegende Seiten sind parallel und gleich lang:</p>
+                <div class="formula-box">
+                    <div class="formula">U = 2 × (<span class="orange">a</span> + <span class="orange">b</span>)</div>
+                </div>
+                <ul>
+                    <li><strong>a</strong> = Grundseite</li>
+                    <li><strong>b</strong> = Schrägseite</li>
+                    <li>Wie beim Rechteck, aber "schief"</li>
+                </ul>
+            </div>
+
+            <!-- Parallelogramm Fläche -->
+            <div class="theory-card parallelogramm fade-in">
+                <div class="shape-illustration">
+                    <svg viewBox="0 0 150 100">
+                        <polygon points="30,85 55,15 135,15 110,85" fill="rgba(249,115,22,0.3)" stroke="#f97316" stroke-width="3"/>
+                        <line x1="55" y1="15" x2="55" y2="85" stroke="#f97316" stroke-width="2" stroke-dasharray="4"/>
+                        <text x="70" y="98" text-anchor="middle" fill="#f97316" font-size="11" font-weight="bold">g</text>
+                        <text x="62" y="55" text-anchor="start" fill="#f97316" font-size="11" font-weight="bold">h</text>
+                    </svg>
+                </div>
+                <h3><div class="icon parallelogramm">▱</div> Parallelogramm - Fläche</h3>
+                <p>Der <strong>Flächeninhalt</strong> – die Höhe steht senkrecht auf der Grundseite:</p>
+                <div class="formula-box">
+                    <div class="formula">A = <span class="orange">g</span> × <span class="orange">h</span></div>
+                </div>
+                <ul>
+                    <li><strong>g</strong> = Grundseite</li>
+                    <li><strong>h</strong> = Höhe (senkrecht!)</li>
+                    <li>Ohne ÷2, da es kein halbes Rechteck ist!</li>
+                </ul>
+            </div>
+
+            <!-- Trapez Umfang -->
+            <div class="theory-card trapez fade-in">
+                <div class="shape-illustration">
+                    <svg viewBox="0 0 150 100">
+                        <polygon points="20,85 45,15 105,15 130,85" fill="rgba(139,92,246,0.2)" stroke="#8b5cf6" stroke-width="3"/>
+                        <text x="75" y="10" text-anchor="middle" fill="#8b5cf6" font-size="10" font-weight="bold">a</text>
+                        <text x="75" y="98" text-anchor="middle" fill="#8b5cf6" font-size="10" font-weight="bold">c</text>
+                        <text x="12" y="55" text-anchor="middle" fill="#8b5cf6" font-size="10" font-weight="bold">b</text>
+                        <text x="138" y="55" text-anchor="middle" fill="#8b5cf6" font-size="10" font-weight="bold">d</text>
+                    </svg>
+                </div>
+                <h3><div class="icon trapez">⏢</div> Trapez - Umfang</h3>
+                <p>Der <strong>Umfang</strong> – alle vier (meist unterschiedlichen) Seiten:</p>
+                <div class="formula-box">
+                    <div class="formula">U = <span class="purple">a</span> + <span class="purple">b</span> + <span class="purple">c</span> + <span class="purple">d</span></div>
+                </div>
+                <ul>
+                    <li><strong>a, c</strong> = parallele Seiten</li>
+                    <li><strong>b, d</strong> = Schenkel (Schrägseiten)</li>
+                    <li>Mindestens ein Paar paralleler Seiten</li>
+                </ul>
+            </div>
+
+            <!-- Trapez Fläche -->
+            <div class="theory-card trapez fade-in">
+                <div class="shape-illustration">
+                    <svg viewBox="0 0 150 100">
+                        <polygon points="20,85 45,15 105,15 130,85" fill="rgba(139,92,246,0.3)" stroke="#8b5cf6" stroke-width="3"/>
+                        <line x1="75" y1="15" x2="75" y2="85" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4"/>
+                        <text x="75" y="10" text-anchor="middle" fill="#8b5cf6" font-size="10" font-weight="bold">a</text>
+                        <text x="75" y="98" text-anchor="middle" fill="#8b5cf6" font-size="10" font-weight="bold">c</text>
+                        <text x="82" y="55" text-anchor="start" fill="#8b5cf6" font-size="10" font-weight="bold">h</text>
+                    </svg>
+                </div>
+                <h3><div class="icon trapez">⏢</div> Trapez - Fläche</h3>
+                <p>Der <strong>Flächeninhalt</strong> – Durchschnitt der parallelen Seiten mal Höhe:</p>
+                <div class="formula-box">
+                    <div class="formula">A = (<span class="purple">a</span> + <span class="purple">c</span>) × <span class="purple">h</span> ÷ 2</div>
+                </div>
+                <ul>
+                    <li><strong>a, c</strong> = parallele Seiten</li>
+                    <li><strong>h</strong> = Höhe (Abstand der parallelen Seiten)</li>
+                    <li>Mittelwert der parallelen Seiten × Höhe</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section" id="rechner">
+        <div class="section-title">
+            <h2>🧮 Interaktiver Rechner</h2>
+            <div class="underline"></div>
+            <p>Gib deine Werte ein und berechne Umfang und Fläche für alle Formen!</p>
+        </div>
+
+        <div class="calculator-container">
+            <!-- Rechteck Calculator -->
+            <div class="calc-card">
+                <h3>▭ Rechteck</h3>
+                <div class="shape-display">
+                    <svg width="180" height="130" viewBox="0 0 180 130">
+                        <rect x="20" y="20" width="140" height="90" fill="rgba(99,102,241,0.2)" stroke="#6366f1" stroke-width="3"/>
+                        <text x="90" y="125" text-anchor="middle" fill="#6366f1" font-weight="bold">a</text>
+                        <text x="170" y="70" text-anchor="middle" fill="#6366f1" font-weight="bold">b</text>
+                    </svg>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Länge a (cm)</label>
+                        <input type="number" id="rectA" placeholder="z.B. 10" min="0" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Breite b (cm)</label>
+                        <input type="number" id="rectB" placeholder="z.B. 5" min="0" step="0.1">
+                    </div>
+                </div>
+                <button class="calc-btn" onclick="calculateRectangle()">Berechnen ✨</button>
+                <div class="result-box" id="rectResults">
+                    <div class="result-grid">
+                        <div>
+                            <h4>Umfang</h4>
+                            <div class="value" id="rectUmfang">-</div>
+                        </div>
+                        <div>
+                            <h4>Fläche</h4>
+                            <div class="value" id="rectFlaeche">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dreieck Calculator -->
+            <div class="calc-card">
+                <h3>△ Dreieck</h3>
+                <div class="shape-display">
+                    <svg width="180" height="130" viewBox="0 0 180 130">
+                        <polygon points="90,15 165,115 15,115" fill="rgba(236,72,153,0.2)" stroke="#ec4899" stroke-width="3"/>
+                        <line x1="90" y1="15" x2="90" y2="115" stroke="#ec4899" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="90" y="128" text-anchor="middle" fill="#ec4899" font-weight="bold">g</text>
+                        <text x="100" y="70" text-anchor="start" fill="#ec4899" font-weight="bold">h</text>
+                    </svg>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Grundseite g (cm)</label>
+                        <input type="number" id="triG" placeholder="z.B. 8" min="0" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Höhe h (cm)</label>
+                        <input type="number" id="triH" placeholder="z.B. 6" min="0" step="0.1">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Seitenlängen a, b, c für Umfang (optional)</label>
+                    <input type="text" id="triSeiten" placeholder="z.B. 5, 5, 6">
+                </div>
+                <button class="calc-btn" style="background: linear-gradient(135deg, #ec4899, #f472b6);" onclick="calculateTriangle()">Berechnen ✨</button>
+                <div class="result-box" id="triResults">
+                    <div class="result-grid">
+                        <div>
+                            <h4>Umfang</h4>
+                            <div class="value" id="triUmfang">-</div>
+                        </div>
+                        <div>
+                            <h4>Fläche</h4>
+                            <div class="value" id="triFlaeche">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parallelogramm Calculator -->
+            <div class="calc-card">
+                <h3>▱ Parallelogramm</h3>
+                <div class="shape-display">
+                    <svg width="180" height="130" viewBox="0 0 180 130">
+                        <polygon points="35,110 60,20 160,20 135,110" fill="rgba(249,115,22,0.2)" stroke="#f97316" stroke-width="3"/>
+                        <line x1="60" y1="20" x2="60" y2="110" stroke="#f97316" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="85" y="125" text-anchor="middle" fill="#f97316" font-weight="bold">g</text>
+                        <text x="70" y="70" text-anchor="start" fill="#f97316" font-weight="bold">h</text>
+                        <text x="25" y="70" text-anchor="middle" fill="#f97316" font-weight="bold">b</text>
+                    </svg>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Grundseite g (cm)</label>
+                        <input type="number" id="paraG" placeholder="z.B. 12" min="0" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Höhe h (cm)</label>
+                        <input type="number" id="paraH" placeholder="z.B. 7" min="0" step="0.1">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Schrägseite b für Umfang (cm)</label>
+                    <input type="number" id="paraB" placeholder="z.B. 8" min="0" step="0.1">
+                </div>
+                <button class="calc-btn orange" onclick="calculateParallelogram()">Berechnen ✨</button>
+                <div class="result-box" id="paraResults">
+                    <div class="result-grid">
+                        <div>
+                            <h4>Umfang</h4>
+                            <div class="value" id="paraUmfang">-</div>
+                        </div>
+                        <div>
+                            <h4>Fläche</h4>
+                            <div class="value" id="paraFlaeche">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trapez Calculator -->
+            <div class="calc-card">
+                <h3>⏢ Trapez</h3>
+                <div class="shape-display">
+                    <svg width="180" height="130" viewBox="0 0 180 130">
+                        <polygon points="25,110 55,20 125,20 155,110" fill="rgba(139,92,246,0.2)" stroke="#8b5cf6" stroke-width="3"/>
+                        <line x1="90" y1="20" x2="90" y2="110" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="90" y="12" text-anchor="middle" fill="#8b5cf6" font-weight="bold" font-size="12">a</text>
+                        <text x="90" y="125" text-anchor="middle" fill="#8b5cf6" font-weight="bold" font-size="12">c</text>
+                        <text x="100" y="70" text-anchor="start" fill="#8b5cf6" font-weight="bold" font-size="12">h</text>
+                    </svg>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Parallele Seite a (cm)</label>
+                        <input type="number" id="trapA" placeholder="z.B. 6" min="0" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Parallele Seite c (cm)</label>
+                        <input type="number" id="trapC" placeholder="z.B. 10" min="0" step="0.1">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Höhe h (cm)</label>
+                        <input type="number" id="trapH" placeholder="z.B. 5" min="0" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Schenkel b, d (optional)</label>
+                        <input type="text" id="trapBD" placeholder="z.B. 5, 5">
+                    </div>
+                </div>
+                <button class="calc-btn purple" onclick="calculateTrapez()">Berechnen ✨</button>
+                <div class="result-box" id="trapResults">
+                    <div class="result-grid">
+                        <div>
+                            <h4>Umfang</h4>
+                            <div class="value" id="trapUmfang">-</div>
+                        </div>
+                        <div>
+                            <h4>Fläche</h4>
+                            <div class="value" id="trapFlaeche">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visualization Section -->
+    <section class="visual-section" id="visualisierung">
+        <div class="section-title">
+            <h2>🎨 Interaktive Visualisierung</h2>
+            <div class="underline"></div>
+            <p>Verändere die Form und beobachte, wie sich Umfang und Fläche ändern!</p>
+        </div>
+
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchVisualTab('rect')">Rechteck</button>
+            <button class="tab-btn" onclick="switchVisualTab('tri')">Dreieck</button>
+            <button class="tab-btn" onclick="switchVisualTab('para')">Parallelogramm</button>
+            <button class="tab-btn" onclick="switchVisualTab('trap')">Trapez</button>
+        </div>
+
+        <div class="visual-container">
+            <div class="visual-canvas">
+                <svg id="visualSVG" width="320" height="280" viewBox="0 0 320 280">
+                    <!-- Rechteck Visualisierung -->
+                    <g id="visualRect">
+                        <rect id="visRectShape" x="60" y="65" width="200" height="150" 
+                              fill="rgba(99,102,241,0.3)" stroke="#6366f1" stroke-width="4"/>
+                        <text id="visRectLabelA" x="160" y="235" text-anchor="middle" fill="#6366f1" font-weight="bold" font-size="16">a = 200</text>
+                        <text id="visRectLabelB" x="275" y="145" text-anchor="start" fill="#6366f1" font-weight="bold" font-size="16">b = 150</text>
+                    </g>
+                    <!-- Dreieck Visualisierung -->
+                    <g id="visualTri" style="display: none;">
+                        <polygon id="visTriShape" points="160,30 280,230 40,230" 
+                                 fill="rgba(236,72,153,0.3)" stroke="#ec4899" stroke-width="4"/>
+                        <line id="visTriHeight" x1="160" y1="30" x2="160" y2="230" stroke="#ec4899" stroke-width="2" stroke-dasharray="8,4"/>
+                        <text id="visTriLabelG" x="160" y="255" text-anchor="middle" fill="#ec4899" font-weight="bold" font-size="16">g = 240</text>
+                        <text id="visTriLabelH" x="175" y="135" text-anchor="start" fill="#ec4899" font-weight="bold" font-size="16">h = 200</text>
+                    </g>
+                    <!-- Parallelogramm Visualisierung -->
+                    <g id="visualPara" style="display: none;">
+                        <polygon id="visParaShape" points="60,230 110,50 280,50 230,230" 
+                                 fill="rgba(249,115,22,0.3)" stroke="#f97316" stroke-width="4"/>
+                        <line id="visParaHeight" x1="110" y1="50" x2="110" y2="230" stroke="#f97316" stroke-width="2" stroke-dasharray="8,4"/>
+                        <text id="visParaLabelG" x="160" y="255" text-anchor="middle" fill="#f97316" font-weight="bold" font-size="16">g = 170</text>
+                        <text id="visParaLabelH" x="125" y="145" text-anchor="start" fill="#f97316" font-weight="bold" font-size="16">h = 180</text>
+                    </g>
+                    <!-- Trapez Visualisierung -->
+                    <g id="visualTrap" style="display: none;">
+                        <polygon id="visTrapShape" points="40,230 90,50 230,50 280,230" 
+                                 fill="rgba(139,92,246,0.3)" stroke="#8b5cf6" stroke-width="4"/>
+                        <line id="visTrapHeight" x1="160" y1="50" x2="160" y2="230" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="8,4"/>
+                        <text id="visTrapLabelA" x="160" y="40" text-anchor="middle" fill="#8b5cf6" font-weight="bold" font-size="16">a = 140</text>
+                        <text id="visTrapLabelC" x="160" y="255" text-anchor="middle" fill="#8b5cf6" font-weight="bold" font-size="16">c = 240</text>
+                        <text id="visTrapLabelH" x="175" y="145" text-anchor="start" fill="#8b5cf6" font-weight="bold" font-size="16">h = 180</text>
+                    </g>
+                </svg>
+            </div>
+            
+            <div class="visual-controls">
+                <!-- Rechteck Controls -->
+                <div id="rectControls">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--primary);">▭ Rechteck anpassen</h4>
+                    <div class="slider-group">
+                        <label>
+                            <span>Länge a:</span>
+                            <span id="visRectAValue">200</span> Einheiten
+                        </label>
+                        <input type="range" id="visRectA" min="80" max="260" value="200" oninput="updateVisualRect()">
+                    </div>
+                    <div class="slider-group">
+                        <label>
+                            <span>Breite b:</span>
+                            <span id="visRectBValue">150</span> Einheiten
+                        </label>
+                        <input type="range" id="visRectB" min="50" max="200" value="150" oninput="updateVisualRect()">
+                    </div>
+                    <div class="visual-info">
+                        <div class="info-box">
+                            <div class="label">Umfang</div>
+                            <div class="value" id="visRectU">700</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="label">Fläche</div>
+                            <div class="value" id="visRectA2">30000</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dreieck Controls -->
+                <div id="triControls" style="display: none;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--secondary);">△ Dreieck anpassen</h4>
+                    <div class="slider-group">
+                        <label>
+                            <span>Grundseite g:</span>
+                            <span id="visTriGValue">240</span> Einheiten
+                        </label>
+                        <input type="range" id="visTriG" min="100" max="280" value="240" oninput="updateVisualTri()">
+                    </div>
+                    <div class="slider-group">
+                        <label>
+                            <span>Höhe h:</span>
+                            <span id="visTriHValue">200</span> Einheiten
+                        </label>
+                        <input type="range" id="visTriH" min="80" max="220" value="200" oninput="updateVisualTri()">
+                    </div>
+                    <div class="visual-info">
+                        <div class="info-box">
+                            <div class="label">Fläche</div>
+                            <div class="value" id="visTriA">24000</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="label">Verhältnis g:h</div>
+                            <div class="value" id="visTriRatio">1.20</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Parallelogramm Controls -->
+                <div id="paraControls" style="display: none;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--orange);">▱ Parallelogramm anpassen</h4>
+                    <div class="slider-group orange">
+                        <label>
+                            <span>Grundseite g:</span>
+                            <span id="visParaGValue">170</span> Einheiten
+                        </label>
+                        <input type="range" id="visParaG" min="100" max="240" value="170" oninput="updateVisualPara()">
+                    </div>
+                    <div class="slider-group orange">
+                        <label>
+                            <span>Höhe h:</span>
+                            <span id="visParaHValue">180</span> Einheiten
+                        </label>
+                        <input type="range" id="visParaH" min="80" max="200" value="180" oninput="updateVisualPara()">
+                    </div>
+                    <div class="slider-group orange">
+                        <label>
+                            <span>Verschiebung:</span>
+                            <span id="visParaSValue">50</span> Einheiten
+                        </label>
+                        <input type="range" id="visParaS" min="20" max="80" value="50" oninput="updateVisualPara()">
+                    </div>
+                    <div class="visual-info">
+                        <div class="info-box orange">
+                            <div class="label">Fläche</div>
+                            <div class="value" id="visParaA">30600</div>
+                        </div>
+                        <div class="info-box orange">
+                            <div class="label">Fläche = g × h</div>
+                            <div class="value" id="visParaFormula">170×180</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trapez Controls -->
+                <div id="trapControls" style="display: none;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--purple);">⏢ Trapez anpassen</h4>
+                    <div class="slider-group purple">
+                        <label>
+                            <span>Obere Seite a:</span>
+                            <span id="visTrapAValue">140</span> Einheiten
+                        </label>
+                        <input type="range" id="visTrapA" min="60" max="200" value="140" oninput="updateVisualTrap()">
+                    </div>
+                    <div class="slider-group purple">
+                        <label>
+                            <span>Untere Seite c:</span>
+                            <span id="visTrapCValue">240</span> Einheiten
+                        </label>
+                        <input type="range" id="visTrapC" min="150" max="280" value="240" oninput="updateVisualTrap()">
+                    </div>
+                    <div class="slider-group purple">
+                        <label>
+                            <span>Höhe h:</span>
+                            <span id="visTrapHValue">180</span> Einheiten
+                        </label>
+                        <input type="range" id="visTrapH" min="80" max="200" value="180" oninput="updateVisualTrap()">
+                    </div>
+                    <div class="visual-info">
+                        <div class="info-box purple">
+                            <div class="label">Fläche</div>
+                            <div class="value" id="visTrapArea">34200</div>
+                        </div>
+                        <div class="info-box purple">
+                            <div class="label">Mittelwert a+c</div>
+                            <div class="value" id="visTrapMid">190</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="comparison-section" id="vergleich">
+        <div class="section-title">
+            <h2>📊 Formel-Vergleich</h2>
+            <div class="underline"></div>
+            <p>Alle Formeln im direkten Vergleich</p>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Form</th>
+                        <th>Umfang (U)</th>
+                        <th>Fläche (A)</th>
+                        <th>Besonderheit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="shape-badge rechteck">▭ Rechteck</span></td>
+                        <td><code>U = 2 × (a + b)</code></td>
+                        <td><code>A = a × b</code></td>
+                        <td>4 rechte Winkel</td>
+                    </tr>
+                    <tr>
+                        <td><span class="shape-badge dreieck">△ Dreieck</span></td>
+                        <td><code>U = a + b + c</code></td>
+                        <td><code>A = (g × h) ÷ 2</code></td>
+                        <td>Halbes Rechteck</td>
+                    </tr>
+                    <tr>
+                        <td><span class="shape-badge parallelogramm">▱ Parallelogramm</span></td>
+                        <td><code>U = 2 × (a + b)</code></td>
+                        <td><code>A = g × h</code></td>
+                        <td>Wie Rechteck, aber schief</td>
+                    </tr>
+                    <tr>
+                        <td><span class="shape-badge trapez">⏢ Trapez</span></td>
+                        <td><code>U = a + b + c + d</code></td>
+                        <td><code>A = (a + c) × h ÷ 2</code></td>
+                        <td>1 Paar parallele Seiten</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section class="quiz-section" id="quiz">
+        <div class="section-title">
+            <h2>❓ Quiz Zeit!</h2>
+            <div class="underline"></div>
+            <p>Teste dein Wissen über alle vier geometrischen Formen!</p>
+        </div>
+
+        <div class="quiz-container" id="quizContainer">
+            <div class="quiz-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text" id="progressText">Frage 1 / 12</span>
+            </div>
+            
+            <div class="quiz-question" id="quizQuestion">
+                Wie berechnet man den Umfang eines Rechtecks?
+            </div>
+            
+            <div class="quiz-options" id="quizOptions">
+            </div>
+            
+            <div class="quiz-feedback" id="quizFeedback"></div>
+            
+            <button class="btn btn-primary quiz-btn" id="quizNextBtn" onclick="nextQuestion()" style="display: none;">
+                Nächste Frage →
+            </button>
+        </div>
+    </section>
+
+    <!-- Game Section -->
+    <section class="game-section" id="spiel">
+        <div class="section-title">
+            <h2>🎮 Schnellrechnen-Spiel</h2>
+            <div class="underline"></div>
+            <p>Berechne Fläche und Umfang so schnell wie möglich!</p>
+        </div>
+
+        <div class="game-container">
+            <div class="game-shape" id="gameShapeContainer">
+                <svg width="280" height="200" viewBox="0 0 280 200" id="gameSVG">
+                </svg>
+            </div>
+            
+            <div class="game-question" id="gameQuestion">
+                Berechne die <strong>Fläche</strong> des Rechtecks!
+            </div>
+            
+            <div class="game-input-container">
+                <input type="number" class="game-input" id="gameAnswer" placeholder="Antwort" onkeypress="handleGameEnter(event)">
+                <button class="btn btn-primary" onclick="checkGameAnswer()">Prüfen</button>
+            </div>
+            
+            <div class="game-feedback" id="gameFeedback"></div>
+            
+            <div class="game-stats">
+                <div class="stat">
+                    <div class="label">Richtig</div>
+                    <div class="value" id="gameCorrect">0</div>
+                </div>
+                <div class="stat">
+                    <div class="label">Falsch</div>
+                    <div class="value" id="gameWrong">0</div>
+                </div>
+                <div class="stat">
+                    <div class="label">Streak 🔥</div>
+                    <div class="value" id="gameStreak">0</div>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="newGameRound()" style="margin-top: 1.5rem;">Neue Runde 🔄</button>
+        </div>
+    </section>
+
+    <!-- Formula Reference Section -->
+    <section class="formula-section" id="formeln">
+        <div class="section-title">
+            <h2>📋 Formelsammlung</h2>
+            <div class="underline"></div>
+            <p>Alle wichtigen Formeln auf einen Blick</p>
+        </div>
+
+        <div class="formula-grid">
+            <div class="formula-card fade-in">
+                <div class="shape-icon blue">
+                    <svg viewBox="0 0 50 50"><rect x="5" y="10" width="40" height="30" fill="white"/></svg>
+                </div>
+                <h4>Rechteck - Umfang</h4>
+                <div class="formula-text">U = 2 × (a + b)</div>
+            </div>
+            <div class="formula-card fade-in">
+                <div class="shape-icon blue">
+                    <svg viewBox="0 0 50 50"><rect x="5" y="10" width="40" height="30" fill="white"/></svg>
+                </div>
+                <h4>Rechteck - Fläche</h4>
+                <div class="formula-text">A = a × b</div>
+            </div>
+            <div class="formula-card fade-in">
+                <div class="shape-icon pink">
+                    <svg viewBox="0 0 50 50"><polygon points="25,5 45,45 5,45" fill="white"/></svg>
+                </div>
+                <h4>Dreieck - Umfang</h4>
+                <div class="formula-text pink">U = a + b + c</div>
+            </div>
+            <div class="formula-card fade-in">
+                <div class="shape-icon pink">
+                    <svg viewBox="0 0 50 50"><polygon points="25,5 45,45 5,45" fill="white"/></svg>
+                </div>
+                <h4>Dreieck - Fläche</h4>
+                <div class="formula-text pink">A = (g × h) ÷ 2</div>
+            </div>
+            <div class="formula-card fade-in">
+                <div class="shape-icon orange">
+                    <svg viewBox="0 0 50 50"><polygon points="10,40 20,10 45,10 35,40" fill="white"/></svg>
+                </div>
+                <h4>Parallelogramm - Umfang</h4>
+                <div class="formula-text orange">U = 2 × (a + b)</div>
+            </div>
+            <div class="formula-card fade-in">
+                <div class="shape-icon orange">
+                    <svg viewBox="0 0 50 50"><polygon points="10,40 20,10 45,10 35,40" fill="white"/></svg>
+                </div>
+                <h4>Parallelogramm - Fläche</h4>
+                <div class="formula-text orange">A = g × h</div>
+            </div>
+            <div class="formula-card fade-in">
+                <div class="shape-icon purple">
+                    <svg viewBox="0 0 50 50"><polygon points="5,40 15,10 35,10 45,40" fill="white"/></svg>
+                </div>
+                <h4>Trapez - Umfang</h4>
+                <div class="formula-text purple">U = a + b + c + d</div>
+            </div>
+            <div class="formula-card fade-in">
+                <div class="shape-icon purple">
+                    <svg viewBox="0 0 50 50"><polygon points="5,40 15,10 35,10 45,40" fill="white"/></svg>
+                </div>
+                <h4>Trapez - Fläche</h4>
+                <div class="formula-text purple">A = (a+c) × h ÷ 2</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>📐 MathGeometrie - Interaktiv lernen macht Spaß!</p>
+        <p>Rechteck • Dreieck • Parallelogramm • Trapez</p>
+        <div class="footer-icons">
+            <span>▭</span>
+            <span>△</span>
+            <span>▱</span>
+            <span>⏢</span>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.6;">© 2024 - Viel Erfolg beim Lernen! 🎓</p>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Fade In Animation on Scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        fadeElements.forEach(el => observer.observe(el));
+
+        // ==================== CALCULATOR FUNCTIONS ====================
+        
+        function calculateRectangle() {
+            const a = parseFloat(document.getElementById('rectA').value);
+            const b = parseFloat(document.getElementById('rectB').value);
+            
+            if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) {
+                alert('Bitte gib gültige positive Zahlen ein!');
+                return;
+            }
+            
+            const umfang = 2 * (a + b);
+            const flaeche = a * b;
+            
+            document.getElementById('rectUmfang').textContent = umfang.toFixed(2) + ' cm';
+            document.getElementById('rectFlaeche').textContent = flaeche.toFixed(2) + ' cm²';
+            document.getElementById('rectResults').classList.add('show');
+        }
+
+        function calculateTriangle() {
+            const g = parseFloat(document.getElementById('triG').value);
+            const h = parseFloat(document.getElementById('triH').value);
+            const seitenStr = document.getElementById('triSeiten').value;
+            
+            if (isNaN(g) || isNaN(h) || g <= 0 || h <= 0) {
+                alert('Bitte gib gültige positive Zahlen für Grundseite und Höhe ein!');
+                return;
+            }
+            
+            const flaeche = (g * h) / 2;
+            let umfang = '-';
+            
+            if (seitenStr.trim()) {
+                const seiten = seitenStr.split(',').map(s => parseFloat(s.trim()));
+                if (seiten.length === 3 && seiten.every(s => !isNaN(s) && s > 0)) {
+                    umfang = seiten.reduce((a, b) => a + b, 0).toFixed(2) + ' cm';
+                }
+            }
+            
+            document.getElementById('triUmfang').textContent = umfang;
+            document.getElementById('triFlaeche').textContent = flaeche.toFixed(2) + ' cm²';
+            document.getElementById('triResults').classList.add('show');
+        }
+
+        function calculateParallelogram() {
+            const g = parseFloat(document.getElementById('paraG').value);
+            const h = parseFloat(document.getElementById('paraH').value);
+            const b = parseFloat(document.getElementById('paraB').value);
+            
+            if (isNaN(g) || isNaN(h) || g <= 0 || h <= 0) {
+                alert('Bitte gib gültige positive Zahlen für Grundseite und Höhe ein!');
+                return;
+            }
+            
+            const flaeche = g * h;
+            let umfang = '-';
+            
+            if (!isNaN(b) && b > 0) {
+                umfang = (2 * (g + b)).toFixed(2) + ' cm';
+            }
+            
+            document.getElementById('paraUmfang').textContent = umfang;
+            document.getElementById('paraFlaeche').textContent = flaeche.toFixed(2) + ' cm²';
+            document.getElementById('paraResults').classList.add('show');
+        }
+
+        function calculateTrapez() {
+            const a = parseFloat(document.getElementById('trapA').value);
+            const c = parseFloat(document.getElementById('trapC').value);
+            const h = parseFloat(document.getElementById('trapH').value);
+            const bdStr = document.getElementById('trapBD').value;
+            
+            if (isNaN(a) || isNaN(c) || isNaN(h) || a <= 0 || c <= 0 || h <= 0) {
+                alert('Bitte gib gültige positive Zahlen für die parallelen Seiten und Höhe ein!');
+                return;
+            }
+            
+            const flaeche = ((a + c) * h) / 2;
+            let umfang = '-';
+            
+            if (bdStr.trim()) {
+                const bd = bdStr.split(',').map(s => parseFloat(s.trim()));
+                if (bd.length === 2 && bd.every(s => !isNaN(s) && s > 0)) {
+                    umfang = (a + c + bd[0] + bd[1]).toFixed(2) + ' cm';
+                }
+            }
+            
+            document.getElementById('trapUmfang').textContent = umfang;
+            document.getElementById('trapFlaeche').textContent = flaeche.toFixed(2) + ' cm²';
+            document.getElementById('trapResults').classList.add('show');
+        }
+
+        // ==================== VISUALIZATION FUNCTIONS ====================
+        
+        let currentVisualTab = 'rect';
+
+        function switchVisualTab(tab) {
+            currentVisualTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'orange', 'purple');
+            });
+            event.target.classList.add('active');
+            if (tab === 'para') event.target.classList.add('orange');
+            if (tab === 'trap') event.target.classList.add('purple');
+            
+            // Hide all
+            document.getElementById('visualRect').style.display = 'none';
+            document.getElementById('visualTri').style.display = 'none';
+            document.getElementById('visualPara').style.display = 'none';
+            document.getElementById('visualTrap').style.display = 'none';
+            document.getElementById('rectControls').style.display = 'none';
+            document.getElementById('triControls').style.display = 'none';
+            document.getElementById('paraControls').style.display = 'none';
+            document.getElementById('trapControls').style.display = 'none';
+            
+            // Show selected
+            if (tab === 'rect') {
+                document.getElementById('visualRect').style.display = 'block';
+                document.getElementById('rectControls').style.display = 'block';
+                updateVisualRect();
+            } else if (tab === 'tri') {
+                document.getElementById('visualTri').style.display = 'block';
+                document.getElementById('triControls').style.display = 'block';
+                updateVisualTri();
+            } else if (tab === 'para') {
+                document.getElementById('visualPara').style.display = 'block';
+                document.getElementById('paraControls').style.display = 'block';
+                updateVisualPara();
+            } else if (tab === 'trap') {
+                document.getElementById('visualTrap').style.display = 'block';
+                document.getElementById('trapControls').style.display = 'block';
+                updateVisualTrap();
+            }
+        }
+
+        function updateVisualRect() {
+            const a = parseInt(document.getElementById('visRectA').value);
+            const b = parseInt(document.getElementById('visRectB').value);
+            
+            document.getElementById('visRectAValue').textContent = a;
+            document.getElementById('visRectBValue').textContent = b;
+            
+            const rect = document.getElementById('visRectShape');
+            const centerX = 160;
+            const centerY = 140;
+            rect.setAttribute('x', centerX - a/2);
+            rect.setAttribute('y', centerY - b/2);
+            rect.setAttribute('width', a);
+            rect.setAttribute('height', b);
+            
+            document.getElementById('visRectLabelA').textContent = 'a = ' + a;
+            document.getElementById('visRectLabelA').setAttribute('y', centerY + b/2 + 25);
+            document.getElementById('visRectLabelB').textContent = 'b = ' + b;
+            document.getElementById('visRectLabelB').setAttribute('x', centerX + a/2 + 10);
+            document.getElementById('visRectLabelB').setAttribute('y', centerY);
+            
+            const umfang = 2 * (a + b);
+            const flaeche = a * b;
+            document.getElementById('visRectU').textContent = umfang;
+            document.getElementById('visRectA2').textContent = flaeche;
+        }
+
+        function updateVisualTri() {
+            const g = parseInt(document.getElementById('visTriG').value);
+            const h = parseInt(document.getElementById('visTriH').value);
+            
+            document.getElementById('visTriGValue').textContent = g;
+            document.getElementById('visTriHValue').textContent = h;
+            
+            const centerX = 160;
+            const baseY = 240;
+            const topY = baseY - h;
+            
+            const points = `${centerX},${topY} ${centerX + g/2},${baseY} ${centerX - g/2},${baseY}`;
+            document.getElementById('visTriShape').setAttribute('points', points);
+            
+            document.getElementById('visTriHeight').setAttribute('x1', centerX);
+            document.getElementById('visTriHeight').setAttribute('y1', topY);
+            document.getElementById('visTriHeight').setAttribute('x2', centerX);
+            document.getElementById('visTriHeight').setAttribute('y2', baseY);
+            
+            document.getElementById('visTriLabelG').textContent = 'g = ' + g;
+            document.getElementById('visTriLabelG').setAttribute('y', baseY + 20);
+            document.getElementById('visTriLabelH').textContent = 'h = ' + h;
+            document.getElementById('visTriLabelH').setAttribute('y', (topY + baseY) / 2);
+            
+            const flaeche = (g * h) / 2;
+            const ratio = (g / h).toFixed(2);
+            document.getElementById('visTriA').textContent = flaeche;
+            document.getElementById('visTriRatio').textContent = ratio;
+        }
+
+        function updateVisualPara() {
+            const g = parseInt(document.getElementById('visParaG').value);
+            const h = parseInt(document.getElementById('visParaH').value);
+            const s = parseInt(document.getElementById('visParaS').value);
+            
+            document.getElementById('visParaGValue').textContent = g;
+            document.getElementById('visParaHValue').textContent = h;
+            document.getElementById('visParaSValue').textContent = s;
+            
+            const centerX = 160;
+            const baseY = 240;
+            const topY = baseY - h;
+            
+            const points = `${centerX - g/2},${baseY} ${centerX - g/2 + s},${topY} ${centerX + g/2 + s},${topY} ${centerX + g/2},${baseY}`;
+            document.getElementById('visParaShape').setAttribute('points', points);
+            
+            document.getElementById('visParaHeight').setAttribute('x1', centerX - g/2 + s);
+            document.getElementById('visParaHeight').setAttribute('y1', topY);
+            document.getElementById('visParaHeight').setAttribute('x2', centerX - g/2 + s);
+            document.getElementById('visParaHeight').setAttribute('y2', baseY);
+            
+            document.getElementById('visParaLabelG').textContent = 'g = ' + g;
+            document.getElementById('visParaLabelG').setAttribute('y', baseY + 20);
+            document.getElementById('visParaLabelH').textContent = 'h = ' + h;
+            
+            const flaeche = g * h;
+            document.getElementById('visParaA').textContent = flaeche;
+            document.getElementById('visParaFormula').textContent = g + '×' + h;
+        }
+
+        function updateVisualTrap() {
+            const a = parseInt(document.getElementById('visTrapA').value);
+            const c = parseInt(document.getElementById('visTrapC').value);
+            const h = parseInt(document.getElementById('visTrapH').value);
+            
+            document.getElementById('visTrapAValue').textContent = a;
+            document.getElementById('visTrapCValue').textContent = c;
+            document.getElementById('visTrapHValue').textContent = h;
+            
+            const centerX = 160;
+            const baseY = 240;
+            const topY = baseY - h;
+            
+            const points = `${centerX - c/2},${baseY} ${centerX - a/2},${topY} ${centerX + a/2},${topY} ${centerX + c/2},${baseY}`;
+            document.getElementById('visTrapShape').setAttribute('points', points);
+            
+            document.getElementById('visTrapHeight').setAttribute('x1', centerX);
+            document.getElementById('visTrapHeight').setAttribute('y1', topY);
+            document.getElementById('visTrapHeight').setAttribute('x2', centerX);
+            document.getElementById('visTrapHeight').setAttribute('y2', baseY);
+            
+            document.getElementById('visTrapLabelA').textContent = 'a = ' + a;
+            document.getElementById('visTrapLabelA').setAttribute('y', topY - 10);
+            document.getElementById('visTrapLabelC').textContent = 'c = ' + c;
+            document.getElementById('visTrapLabelC').setAttribute('y', baseY + 20);
+            document.getElementById('visTrapLabelH').textContent = 'h = ' + h;
+            
+            const flaeche = ((a + c) * h) / 2;
+            const mid = (a + c) / 2;
+            document.getElementById('visTrapArea').textContent = flaeche;
+            document.getElementById('visTrapMid').textContent = mid;
+        }
+
+        // ==================== QUIZ FUNCTIONS ====================
+        
+        const quizQuestions = [
+            {
+                question: "Wie berechnet man den Umfang eines Rechtecks mit Länge a und Breite b?",
+                options: ["U = a × b", "U = 2 × (a + b)", "U = a + b", "U = 4 × a"],
+                correct: 1,
+                explanation: "Der Umfang ist die Summe aller Seiten: 2a + 2b = 2 × (a + b)"
+            },
+            {
+                question: "Ein Rechteck hat die Maße 8 cm × 5 cm. Wie groß ist die Fläche?",
+                options: ["26 cm²", "40 cm²", "13 cm²", "80 cm²"],
+                correct: 1,
+                explanation: "Fläche = Länge × Breite = 8 × 5 = 40 cm²"
+            },
+            {
+                question: "Wie lautet die Formel für die Dreiecksfläche?",
+                options: ["A = g × h", "A = g + h", "A = (g × h) ÷ 2", "A = 2 × g × h"],
+                correct: 2,
+                explanation: "Die Dreiecksfläche ist: Grundseite mal Höhe geteilt durch 2"
+            },
+            {
+                question: "Ein Dreieck hat die Grundseite 10 cm und die Höhe 6 cm. Wie groß ist die Fläche?",
+                options: ["60 cm²", "30 cm²", "16 cm²", "32 cm²"],
+                correct: 1,
+                explanation: "Fläche = (10 × 6) ÷ 2 = 60 ÷ 2 = 30 cm²"
+            },
+            {
+                question: "Wie berechnet man die Fläche eines Parallelogramms?",
+                options: ["A = (g × h) ÷ 2", "A = a + b + c + d", "A = g × h", "A = 2 × (g + h)"],
+                correct: 2,
+                explanation: "Beim Parallelogramm: Fläche = Grundseite × Höhe (ohne ÷2!)"
+            },
+            {
+                question: "Ein Parallelogramm hat g = 12 cm und h = 5 cm. Wie groß ist die Fläche?",
+                options: ["30 cm²", "60 cm²", "34 cm²", "17 cm²"],
+                correct: 1,
+                explanation: "Fläche = g × h = 12 × 5 = 60 cm²"
+            },
+            {
+                question: "Was ist die Formel für die Trapezfläche?",
+                options: ["A = a × c × h", "A = (a + c) × h ÷ 2", "A = a × h", "A = (a × c) ÷ 2"],
+                correct: 1,
+                explanation: "Trapezfläche = (Summe der parallelen Seiten) × Höhe ÷ 2"
+            },
+            {
+                question: "Ein Trapez hat a = 6 cm, c = 10 cm und h = 4 cm. Wie groß ist die Fläche?",
+                options: ["32 cm²", "40 cm²", "24 cm²", "20 cm²"],
+                correct: 0,
+                explanation: "Fläche = (6 + 10) × 4 ÷ 2 = 16 × 4 ÷ 2 = 32 cm²"
+            },
+            {
+                question: "Welche Formen haben die gleiche Umfangformel U = 2 × (a + b)?",
+                options: ["Dreieck und Trapez", "Rechteck und Parallelogramm", "Dreieck und Rechteck", "Trapez und Parallelogramm"],
+                correct: 1,
+                explanation: "Rechteck und Parallelogramm haben beide U = 2 × (a + b)"
+            },
+            {
+                question: "Was ist der Unterschied zwischen Dreieck- und Parallelogrammfläche?",
+                options: ["Keine, beide sind g × h", "Dreieck wird durch 2 geteilt", "Parallelogramm wird durch 2 geteilt", "Beide werden durch 2 geteilt"],
+                correct: 1,
+                explanation: "Dreieck: A = (g×h)÷2, Parallelogramm: A = g×h (ohne ÷2)"
+            },
+            {
+                question: "Wie viele verschiedene Seitenlängen braucht man für den Trapez-Umfang?",
+                options: ["2", "3", "4", "1"],
+                correct: 2,
+                explanation: "Trapez-Umfang = a + b + c + d (alle 4 Seiten werden addiert)"
+            },
+            {
+                question: "Ein Parallelogramm hat Grundseite 8 cm und Schrägseite 5 cm. Wie groß ist der Umfang?",
+                options: ["13 cm", "26 cm", "40 cm", "20 cm"],
+                correct: 1,
+                explanation: "Umfang = 2 × (8 + 5) = 2 × 13 = 26 cm"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            const q = quizQuestions[currentQuestion];
+            document.getElementById('quizQuestion').textContent = q.question;
+            
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((option, index) => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'quiz-option';
+                optionEl.textContent = option;
+                optionEl.onclick = () => selectOption(index);
+                optionsContainer.appendChild(optionEl);
+            });
+            
+            document.getElementById('quizFeedback').classList.remove('show');
+            document.getElementById('quizNextBtn').style.display = 'none';
+            document.getElementById('progressFill').style.width = ((currentQuestion) / quizQuestions.length * 100) + '%';
+            document.getElementById('progressText').textContent = `Frage ${currentQuestion + 1} / ${quizQuestions.length}`;
+            answered = false;
+        }
+
+        function selectOption(index) {
+            if (answered) return;
+            answered = true;
+            
+            const q = quizQuestions[currentQuestion];
+            const options = document.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('quizFeedback');
+            
+            options[index].classList.add('selected');
+            
+            if (index === q.correct) {
+                options[index].classList.add('correct');
+                feedback.textContent = '✓ Richtig! ' + q.explanation;
+                feedback.className = 'quiz-feedback show correct';
+                score++;
+            } else {
+                options[index].classList.add('wrong');
+                options[q.correct].classList.add('correct');
+                feedback.textContent = '✗ Leider falsch. ' + q.explanation;
+                feedback.className = 'quiz-feedback show wrong';
+            }
+            
+            document.getElementById('quizNextBtn').style.display = 'block';
+            
+            if (currentQuestion === quizQuestions.length - 1) {
+                document.getElementById('quizNextBtn').textContent = 'Ergebnis anzeigen 🎉';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion >= quizQuestions.length) {
+                showResults();
+            } else {
+                loadQuestion();
+            }
+        }
+
+        function showResults() {
+            const container = document.getElementById('quizContainer');
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            let message = '';
+            let emoji = '';
+            
+            if (percentage >= 90) {
+                message = 'Ausgezeichnet! Du bist ein Geometrie-Profi!';
+                emoji = '🏆';
+            } else if (percentage >= 70) {
+                message = 'Sehr gut! Du hast das Thema gut verstanden!';
+                emoji = '🌟';
+            } else if (percentage >= 50) {
+                message = 'Gut gemacht! Übung macht den Meister!';
+                emoji = '👍';
+            } else {
+                message = 'Weiter üben! Du schaffst das!';
+                emoji = '💪';
+            }
+            
+            container.innerHTML = `
+                <div class="score-display">
+                    <div class="score">${score}/${quizQuestions.length}</div>
+                    <div class="message">${emoji} ${message}</div>
+                    <p style="color: var(--gray); margin-bottom: 2rem;">${percentage}% richtig beantwortet</p>
+                    <button class="btn btn-primary" onclick="restartQuiz()">Quiz wiederholen 🔄</button>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            
+            document.getElementById('quizContainer').innerHTML = `
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Frage 1 / ${quizQuestions.length}</span>
+                </div>
+                <div class="quiz-question" id="quizQuestion"></div>
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="quiz-feedback" id="quizFeedback"></div>
+                <button class="btn btn-primary quiz-btn" id="quizNextBtn" onclick="nextQuestion()" style="display: none;">
+                    Nächste Frage →
+                </button>
+            `;
+            
+            loadQuestion();
+        }
+
+        // ==================== GAME FUNCTIONS ====================
+        
+        let gameCorrect = 0;
+        let gameWrong = 0;
+        let gameStreak = 0;
+        let currentGameShape = {};
+        let currentGameType = '';
+
+        function newGameRound() {
+            const shapes = ['rect', 'tri', 'para', 'trap'];
+            const shape = shapes[Math.floor(Math.random() * shapes.length)];
+            
+            // Determine what to calculate
+            let types = ['area'];
+            if (shape === 'rect' || shape === 'para') {
+                types.push('perimeter');
+            }
+            const type = types[Math.floor(Math.random() * types.length)];
+            currentGameType = type;
+            
+            const svg = document.getElementById('gameSVG');
+            
+            if (shape === 'rect') {
+                const a = Math.floor(Math.random() * 10) + 3;
+                const b = Math.floor(Math.random() * 8) + 2;
+                currentGameShape = { type: 'rect', a, b };
+                
+                svg.innerHTML = `
+                    <rect x="40" y="40" width="200" height="120" fill="rgba(99,102,241,0.3)" stroke="#6366f1" stroke-width="4"/>
+                    <text x="140" y="175" text-anchor="middle" fill="#6366f1" font-weight="bold" font-size="16">${a} cm</text>
+                    <text x="255" y="105" text-anchor="start" fill="#6366f1" font-weight="bold" font-size="16">${b} cm</text>
+                `;
+                
+                document.getElementById('gameQuestion').innerHTML = type === 'area' 
+                    ? `Berechne die <strong>Fläche</strong> des Rechtecks!`
+                    : `Berechne den <strong>Umfang</strong> des Rechtecks!`;
+                    
+            } else if (shape === 'tri') {
+                const g = Math.floor(Math.random() * 10) + 4;
+                const h = Math.floor(Math.random() * 8) + 3;
+                currentGameShape = { type: 'tri', g, h };
+                
+                svg.innerHTML = `
+                    <polygon points="140,30 250,170 30,170" fill="rgba(236,72,153,0.3)" stroke="#ec4899" stroke-width="4"/>
+                    <line x1="140" y1="30" x2="140" y2="170" stroke="#ec4899" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="140" y="190" text-anchor="middle" fill="#ec4899" font-weight="bold" font-size="16">g = ${g} cm</text>
+                    <text x="155" y="105" text-anchor="start" fill="#ec4899" font-weight="bold" font-size="16">h = ${h} cm</text>
+                `;
+                
+                document.getElementById('gameQuestion').innerHTML = `Berechne die <strong>Fläche</strong> des Dreiecks!`;
+                
+            } else if (shape === 'para') {
+                const g = Math.floor(Math.random() * 10) + 4;
+                const h = Math.floor(Math.random() * 7) + 3;
+                const b = Math.floor(Math.random() * 5) + 3;
+                currentGameShape = { type: 'para', g, h, b };
+                
+                svg.innerHTML = `
+                    <polygon points="50,170 90,30 250,30 210,170" fill="rgba(249,115,22,0.3)" stroke="#f97316" stroke-width="4"/>
+                    <line x1="90" y1="30" x2="90" y2="170" stroke="#f97316" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="130" y="190" text-anchor="middle" fill="#f97316" font-weight="bold" font-size="16">g = ${g} cm</text>
+                    <text x="100" y="105" text-anchor="start" fill="#f97316" font-weight="bold" font-size="16">h = ${h} cm</text>
+                    <text x="35" y="105" text-anchor="middle" fill="#f97316" font-weight="bold" font-size="14">b=${b}</text>
+                `;
+                
+                document.getElementById('gameQuestion').innerHTML = type === 'area' 
+                    ? `Berechne die <strong>Fläche</strong> des Parallelogramms!`
+                    : `Berechne den <strong>Umfang</strong> des Parallelogramms!`;
+                    
+            } else if (shape === 'trap') {
+                const a = Math.floor(Math.random() * 6) + 4;
+                const c = Math.floor(Math.random() * 6) + 8;
+                const h = Math.floor(Math.random() * 6) + 3;
+                currentGameShape = { type: 'trap', a, c, h };
+                
+                svg.innerHTML = `
+                    <polygon points="40,170 80,30 200,30 240,170" fill="rgba(139,92,246,0.3)" stroke="#8b5cf6" stroke-width="4"/>
+                    <line x1="140" y1="30" x2="140" y2="170" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="140" y="20" text-anchor="middle" fill="#8b5cf6" font-weight="bold" font-size="16">a = ${a} cm</text>
+                    <text x="140" y="190" text-anchor="middle" fill="#8b5cf6" font-weight="bold" font-size="16">c = ${c} cm</text>
+                    <text x="155" y="105" text-anchor="start" fill="#8b5cf6" font-weight="bold" font-size="16">h = ${h} cm</text>
+                `;
+                
+                document.getElementById('gameQuestion').innerHTML = `Berechne die <strong>Fläche</strong> des Trapezes!`;
+            }
+            
+            document.getElementById('gameAnswer').value = '';
+            document.getElementById('gameFeedback').textContent = '';
+            document.getElementById('gameFeedback').className = 'game-feedback';
+            document.getElementById('gameAnswer').focus();
+        }
+
+        function checkGameAnswer() {
+            const userAnswer = parseFloat(document.getElementById('gameAnswer').value);
+            const feedback = document.getElementById('gameFeedback');
+            
+            if (isNaN(userAnswer)) {
+                feedback.textContent = 'Bitte gib eine Zahl ein!';
+                feedback.className = 'game-feedback wrong';
+                return;
+            }
+            
+            let correctAnswer;
+            const s = currentGameShape;
+            
+            if (s.type === 'rect') {
+                correctAnswer = currentGameType === 'area' ? s.a * s.b : 2 * (s.a + s.b);
+            } else if (s.type === 'tri') {
+                correctAnswer = (s.g * s.h) / 2;
+            } else if (s.type === 'para') {
+                correctAnswer = currentGameType === 'area' ? s.g * s.h : 2 * (s.g + s.b);
+            } else if (s.type === 'trap') {
+                correctAnswer = ((s.a + s.c) * s.h) / 2;
+            }
+            
+            if (Math.abs(userAnswer - correctAnswer) < 0.01) {
+                gameCorrect++;
+                gameStreak++;
+                feedback.textContent = `✓ Richtig! Die Antwort ist ${correctAnswer}`;
+                feedback.className = 'game-feedback correct';
+                
+                setTimeout(newGameRound, 1500);
+            } else {
+                gameWrong++;
+                gameStreak = 0;
+                feedback.textContent = `✗ Falsch! Die richtige Antwort ist ${correctAnswer}`;
+                feedback.className = 'game-feedback wrong';
+            }
+            
+            document.getElementById('gameCorrect').textContent = gameCorrect;
+            document.getElementById('gameWrong').textContent = gameWrong;
+            document.getElementById('gameStreak').textContent = gameStreak;
+        }
+
+        function handleGameEnter(event) {
+            if (event.key === 'Enter') {
+                checkGameAnswer();
+            }
+        }
+
+        // ==================== INITIALIZE ====================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestion();
+            newGameRound();
+            updateVisualRect();
+            updateVisualTri();
+            updateVisualPara();
+            updateVisualTrap();
+        });
+    </script>
+</body>
+</html>
